@@ -97,7 +97,4 @@ def scrape():
 
     return data_dict
 
-scrape = scrape()
-
-pprint.pprint(scrape)
 
