@@ -71,28 +71,50 @@ def landing():
         post=fact_table, 
         tag = 'Equatorial Diameter:'
         )
+
     html_table = pd.DataFrame(EXT_DATA.find_one(table_insert[0]), index=[1]).T.to_html()
 
     new_scrape = scraped.newsScrape()
 
-    post_exists = False 
-    for i in NEWS.find():
-        if i['article_title'] == new_scrape['article_title']:
-            post_exists = True
-        else:
-            post_exists = False
+    news_insert = conditional_insert(
+        collection=NEWS, 
+        post=new_scrape, 
+        tag = 'article_title'
+        )
 
-    if post_exists == False:
-        ### to add datetime inserted do dict1.update(dict2)
-        post_id = NEWS.insert_one(new_scrape).inserted_id
-    else: 
-        post_id = NEWS.find_one(new_scrape)['_id']
+    if isinstance(news_insert, tuple): 
+        latest_news = NEWS.find_one(news_insert[0])
 
-    latest_news = NEWS.find_one({'_id' : ObjectId(post_id) })
+    elif isinstance(news_insert, str):
+        latest_news = NEWS.find_one(ObjectId(news_insert))
 
-    latest_img = scraped.imgScrape()
+    img_scrape = scraped.imgScrape()
 
-    latest_weather = scraped.weatherScrape()
+    img_insert = conditional_insert(
+        collection=IMGS, 
+        post=img_scrape, 
+        tag = 'feat_img_title'
+        )
+
+    if isinstance(img_insert, tuple): 
+        latest_img = IMGS.find_one({'_id' : ObjectId(img_insert[0]) })
+
+    elif isinstance(img_insert, str):
+        latest_img = IMGS.find_one({'_id' : ObjectId(img_insert) })
+
+    weather_scrape = scraped.weatherScrape()
+
+    weather_insert = conditional_insert(
+    collection=TWIT, 
+    post=weather_scrape, 
+    tag = 'tweet_text'
+    )
+
+    if isinstance(weather_insert, tuple): 
+        latest_weather = TWIT.find_one({'_id' : ObjectId(weather_insert[0]) })
+
+    elif isinstance(weather_insert, str):
+        latest_weather = TWIT.find_one({'_id' : ObjectId(weather_insert) })
 
     hemi1 = scraped.extractHemispheres()[0]
 

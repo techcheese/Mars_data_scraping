@@ -60,7 +60,7 @@ class Mars_Scrape:
 
         info_dict = {
             "tweet_text": tweet[0].p.text,
-            "date": datetime.date.fromtimestamp(int(tweet_time.attrs["data-time"])),
+            "date": datetime.date.fromtimestamp(int(tweet_time.attrs["data-time"])).strftime("%m/%d/%Y"),
         }
 
         return info_dict
