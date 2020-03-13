@@ -22,9 +22,16 @@ def landing():
     
     fact_table = scraped.extractFactTable()
 
-    html_v = pd.DataFrame(fact_table, index=[1]).T.to_html()
+    new_scrape = scraped.newsScrape()
 
-    return render_template('heroic_temp.html', title='MarsFacts',table = html_v)
+    html_table = pd.DataFrame(fact_table, index=[1]).T.to_html()
+
+    return (render_template('heroic_temp.html', 
+                            title='MarsFacts',
+                            table = html_table, 
+                            news_title = new_scrape['article_title'],
+                            news_body = new_scrape['description_text'],
+                            news_url = new_scrape['article_link'], ))
 
 @app.route('/new_scrape')
 def new_scrape():

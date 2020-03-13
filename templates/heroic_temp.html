@@ -53,9 +53,12 @@
 
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
-      <h1 class="display-3">A Mission to Mars through the Web!</h1>
-      <p class="lead">This website scrapes several websites for the lastest data on Mars on command.</p>
-      <a href="#" class="btn btn-primary btn-lg">Call to action!</a>
+      <h1 class="display-3 text-center">A Mission to Mars through the Web!</h1>
+      <h3>This website scrapes several websites for the lastest data on Mars on command.</h3>
+      <p class="lead"> Latest Article from NASA: {{ news_title }}</p>
+      <p> {{news_body}} </p>
+      <a href= {{news_url}} class="btn btn-primary btn-lg"> Learn more!</a>
+      <a href= '#' class="btn btn-primary btn-lg"> Update Article</a>
     </header>
 
     <!-- Page Features -->
@@ -104,7 +107,6 @@
       <div class="col-lg-3 col-md-6 mb-4">
       <div class="table">
             {{table | safe}}
-
       </div>
     </div>
 
