@@ -2,22 +2,61 @@ from flask import Flask, render_template, jsonify, request
 import pymongo
 from scrape_class import Mars_Scrape
 import pandas as pd
-
 from bson.objectid import ObjectId
-
-#import jinja2
 
 app = Flask(__name__)
 
 conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
-
 db = client.mars_web_scrape
+
+LAST_DATA = db.latest_data
+
+def conditional_insert(post, tag, collection = LAST_DATA):
+    ("""" 
+    DOCSTRING
+
+    collection = mongo_db collection
+    post = post to be inserted into database
+    tag = key in a post we want to check fo runiqueness
+
+    The purpose of this function is to avoid clutter in the database from repeated 
+    running of the code collection.insert_one() or collection.insert_many() 
+    every time we test the code
+
+    The functions return the post_id if a new post is made
+    or
+    returns a (2,) tuple containing the assigned id of an exisiting post and the post_flag 
+    variable which should return Falsey since the flag will only be raised if the post passed
+    is a unique post
+
+    could potentially improve the accuracy by checking the amount of tags that are equal
+    repeated post should only have the _id tag not equal
+    
+    """)
+    post_flag = False 
+    for i in collection.find():
+        if i[tag] == post[tag]:
+            post_flag = True
+        else:
+            post_flag = False
+
+    if post_flag == False:
+        ### to add datetime inserted do dict1.update(dict2)
+        post_id = collection.insert_one(post).inserted_id
+    
+        return str(post_id)
+
+    else: 
+        exists_id = collection.find_one(post)['_id']
+
+        return (exists_id, post_flag)
 
 NEWS = db.news
 IMGS = db.images
 TWIT = db.twitter_weather
-
+EXT_DATA = db.extracted_data
+LAST_DATA = db.latest_data
 
 
 
@@ -26,8 +65,13 @@ def landing():
     scraped = Mars_Scrape()
     
     fact_table = scraped.extractFactTable()
-    html_table = pd.DataFrame(fact_table, index=[1]).T.to_html()
-
+  
+    table_insert = conditional_insert(
+        collection=EXT_DATA, 
+        post=fact_table, 
+        tag = 'Equatorial Diameter:'
+        )
+    html_table = pd.DataFrame(EXT_DATA.find_one(table_insert[0]), index=[1]).T.to_html()
 
     new_scrape = scraped.newsScrape()
 
