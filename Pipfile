@@ -15,6 +15,7 @@ pandas = "*"
 requests = "*"
 selenium = "*"
 ipykernel = "*"
+pymongo = "*"
 
 [requires]
 python_version = "3.7"
