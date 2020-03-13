@@ -8,13 +8,13 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Full Width Pics - Start Bootstrap Template</title>
+  <title>Mars' Hamispheres</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/full_vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/full-width-pics.css" rel="stylesheet">
+  <link href="../static/full_css/full-width-pics.css" rel="stylesheet">
 
 </head>
 
@@ -23,71 +23,68 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <a class="navbar-brand" href="#">Explore!</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link" href="/">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="#">Databases</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="/hemispheres">Hemispheres</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Header - set the background image for the header in the line below -->
-  <header class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1076');">
-    <img class="img-fluid d-block mx-auto" src="http://placehold.it/200x200&text=Logo" alt="">
-  </header>
-
-  <!-- Content section -->
-  <section class="py-5">
-    <div class="container">
-      <h1>Section Heading</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+`<section class='center-content'>
+  <div class="col-lg-3 col-md-6 mb-4" style="width: 18rem;">
+    <img class="card-img-top bg-image-full" src={{hemi1_url}} alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{hemi1_title}}</h5>
+      <p class="card-text"></p>
+      <a href={{hemi1_link}} class="btn btn-primary">Learn More</a>
     </div>
-  </section>
-
-  <!-- Image Section - set the background image for the header in the line below -->
-  <section class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1081');">
-    <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
-    <div style="height: 200px;"></div>
-  </section>
-
-  <!-- Content section -->
-  <section class="py-5">
-    <div class="container">
-      <h1>Section Heading</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+  </div>
+  
+  <div class="col-lg-3 col-md-6 mb-4" style="width: 18rem;">
+    <img class="card-img-top" src={{hemi2_url}} alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{hemi2_title}}</h5>
+      <p class="card-text"></p>
+      <a href={{hemi2_link}} class="btn btn-primary">Learn More</a>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+  </div>
+  
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src={{hemi3_url}} alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{hemi3_title}}</h5>
+      <p class="card-text"></p>
+      <a href={{hemi3_link}} class="btn btn-primary">Learn More</a>
     </div>
-    <!-- /.container -->
-  </footer>
-
+  </div>
+  
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src={{hemi4_url}} alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{hemi4_title}}</h5>
+      <p class="card-text"></p>
+      <a href={{hemi4_link}} class="btn btn-primary">Learn More</a>
+    </div>
+  </div>
+</section>
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/full_vendor/jquery/jquery.min.js"></script>
+  <script src="../static/full_vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

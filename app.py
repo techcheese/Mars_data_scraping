@@ -128,12 +128,33 @@ def landing():
         hemi1_url=hemi1["full_img_url"],
     )
 
+@app.route('/hemispheres')
+def hemi():
+    scraped = Mars_Scrape()
+    hemis = scraped.extractHemispheres()
+    hemi1 = hemis[0]
+    hemi2 = hemis[1]
+    hemi3 = hemis[2]
+    hemi4 = hemis[3]
 
-@app.route("/new_scrape")
-def new_scrape():
-    news = scraped.newsScrape()
-    img = scraped.imgScrape()
-    weather = scraped.weatherScrape()
 
+    return(
+        render_template('full_width_temp.html',
+            hemi1_title = hemi1['title'],
+            hemi1_link = hemi1['hemi_link'],
+            hemi1_url = hemi1['full_img_url'],
+            hemi2_title = hemi2['title'],
+            hemi2_link = hemi2['hemi_link'],
+            hemi2_url = hemi2['full_img_url'],
+            hemi3_title = hemi3['title'],
+            hemi3_link = hemi3['hemi_link'],
+            hemi3_url = hemi3['full_img_url'],
+            hemi4_title = hemi4['title'],
+            hemi4_link = hemi4['hemi_link'],
+            hemi4_url = hemi4['full_img_url'],
 
+        )
+    )
+
+# @app.route('/hemisphere_pictures')
 app.run(debug=True)
