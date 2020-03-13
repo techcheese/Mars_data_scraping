@@ -64,15 +64,16 @@
     <!-- Page Features -->
     <div class="row text-center">
 
+
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="card h-100">
-          <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+          <img class="card-img-top" src= {{img_url}} alt="">
           <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            <h4 class="card-title">{{img_title}}</h4>
+            <p class="card-text">JPL is so kind to provide with beautiiful pictures day and night. Clcik below to visit the image URL.</p>
           </div>
           <div class="card-footer">
-            <a href="#" class="btn btn-primary">Find Out More!</a>
+            <a href= {{img_url}} class="btn btn-primary">Full Size</a>
           </div>
         </div>
       </div>
@@ -80,23 +81,29 @@
 
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="card h-100">
-          <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+          <img class="card-img-top" src="https://solarsystem.nasa.gov/system/content_pages/main_images/1013_PIA22228_1600.jpg" alt="">
           <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            <h4 class="card-title">Mars Weather</h4>
+            <p class="card-text">Thi twitter channel tweets weather data from the Insight roaming around Mars. Here is the latest tweet:</p>
+            <p class="card-text">{{ weather_text }}</p>
+            <p class="card-text">Please click below to visit the twitter account.</p>
           </div>
           <div class="card-footer">
-            <a href="#" class="btn btn-primary">Find Out More!</a>
+            <a href={{twitter_url}} class="btn btn-primary">tweet</a>
           </div>
         </div>
       </div>
 
+
+
+
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="card h-100">
-          <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+          <img class="card-img-top" src= {{hemi1_url}} >
           <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+            <h4 class="card-title">Mars Hemispheres</h4>
+            <p class="card-text"> This is a picture of {{ hemi1_title }}. Learn more about this hemisphere</p>
+            <a href= {{ hemi1_link }}> here </a>
           </div>
           <div class="card-footer">
             <a href="#" class="btn btn-primary">Find Out More!</a>
@@ -105,8 +112,12 @@
       </div>
       
       <div class="col-lg-3 col-md-6 mb-4">
-      <div class="table">
+
+        <div class="card h-100">
+          {{ title }}
+          <div class="card-body">
             {{table | safe}}
+          
       </div>
     </div>
 

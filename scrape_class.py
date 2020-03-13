@@ -16,6 +16,7 @@ class Mars_Scrape:
 
         self.fact_url = "https://space-facts.com/mars/"
 
+        self.hemisphere_url_root = 'https://astrogeology.usgs.gov'
         self.hemisphere_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
 
 
@@ -80,13 +81,15 @@ class Mars_Scrape:
         for hemi in hemi_soup.find_all('div', class_='item'):
             info_dict = {
                 'title' : hemi.h3.text,
+                'hemi_link' : str(self.hemisphere_url_root) + 
+                    hemi.a['href'],
                 'full_img_url' : str(img_astrogeology_root + 
                             hemi.a['href'] + 
                             '.tif/full.jpg').replace('search/map', 'download')
             }
             hemispheres.append(info_dict)
 
-        return info_dict
+        return hemispheres
 
     def scrapeLatest(self):
         news = self.newsScrape()
