@@ -6,14 +6,20 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-conn = 'mongodb://localhost:27017'
+conn = "mongodb://localhost:27017"
 client = pymongo.MongoClient(conn)
 db = client.mars_web_scrape
 
+NEWS = db.news
+IMGS = db.images
+TWIT = db.twitter_weather
+EXT_DATA = db.extracted_data
 LAST_DATA = db.latest_data
 
-def conditional_insert(post, tag, collection = LAST_DATA):
-    ("""" 
+
+def conditional_insert(post, tag, collection=LAST_DATA):
+    (
+        """" 
     DOCSTRING
 
     collection = mongo_db collection
@@ -33,8 +39,10 @@ def conditional_insert(post, tag, collection = LAST_DATA):
     could potentially improve the accuracy by checking the amount of tags that are equal
     repeated post should only have the _id tag not equal
     
-    """)
-    post_flag = False 
+    """
+    )
+
+    post_flag = False
     for i in collection.find():
         if i[tag] == post[tag]:
             post_flag = True
@@ -44,45 +52,34 @@ def conditional_insert(post, tag, collection = LAST_DATA):
     if post_flag == False:
         ### to add datetime inserted do dict1.update(dict2)
         post_id = collection.insert_one(post).inserted_id
-    
+
         return str(post_id)
 
-    else: 
-        exists_id = collection.find_one(post)['_id']
+    else:
+        exists_id = collection.find_one(post)["_id"]
 
         return (exists_id, post_flag)
 
-NEWS = db.news
-IMGS = db.images
-TWIT = db.twitter_weather
-EXT_DATA = db.extracted_data
-LAST_DATA = db.latest_data
 
-
-
-@app.route('/')
+@app.route("/")
 def landing():
     scraped = Mars_Scrape()
-    
+
     fact_table = scraped.extractFactTable()
-  
+
     table_insert = conditional_insert(
-        collection=EXT_DATA, 
-        post=fact_table, 
-        tag = 'Equatorial Diameter:'
-        )
+        collection=EXT_DATA, post=fact_table, tag="Equatorial Diameter:"
+    )
 
     html_table = pd.DataFrame(EXT_DATA.find_one(table_insert[0]), index=[1]).T.to_html()
 
     new_scrape = scraped.newsScrape()
 
     news_insert = conditional_insert(
-        collection=NEWS, 
-        post=new_scrape, 
-        tag = 'article_title'
-        )
+        collection=NEWS, post=new_scrape, tag="article_title"
+    )
 
-    if isinstance(news_insert, tuple): 
+    if isinstance(news_insert, tuple):
         latest_news = NEWS.find_one(news_insert[0])
 
     elif isinstance(news_insert, str):
@@ -91,55 +88,52 @@ def landing():
     img_scrape = scraped.imgScrape()
 
     img_insert = conditional_insert(
-        collection=IMGS, 
-        post=img_scrape, 
-        tag = 'feat_img_title'
-        )
+        collection=IMGS, post=img_scrape, tag="feat_img_title"
+    )
 
-    if isinstance(img_insert, tuple): 
-        latest_img = IMGS.find_one({'_id' : ObjectId(img_insert[0]) })
+    if isinstance(img_insert, tuple):
+        latest_img = IMGS.find_one({"_id": ObjectId(img_insert[0])})
 
     elif isinstance(img_insert, str):
-        latest_img = IMGS.find_one({'_id' : ObjectId(img_insert) })
+        latest_img = IMGS.find_one({"_id": ObjectId(img_insert)})
 
     weather_scrape = scraped.weatherScrape()
 
     weather_insert = conditional_insert(
-    collection=TWIT, 
-    post=weather_scrape, 
-    tag = 'tweet_text'
+        collection=TWIT, post=weather_scrape, tag="tweet_text"
     )
 
-    if isinstance(weather_insert, tuple): 
-        latest_weather = TWIT.find_one({'_id' : ObjectId(weather_insert[0]) })
+    if isinstance(weather_insert, tuple):
+        latest_weather = TWIT.find_one({"_id": ObjectId(weather_insert[0])})
 
     elif isinstance(weather_insert, str):
-        latest_weather = TWIT.find_one({'_id' : ObjectId(weather_insert) })
+        latest_weather = TWIT.find_one({"_id": ObjectId(weather_insert)})
 
     hemi1 = scraped.extractHemispheres()[0]
 
-    return (render_template('heroic_temp.html', 
-                            title='MarsFacts',
-                            table = html_table, 
-                            news_title = latest_news['article_title'],
-                            news_body = latest_news['description_text'],
-                            news_url = latest_news['article_link'], 
-                            img_title = latest_img['feat_img_title'],
-                            img_url = latest_img['feat_img_url'],
-                            weather_text = latest_weather['tweet_text'],
-                            date_added = latest_weather['date'],
-                            twitter_url = scraped.twiter_url,
-                            hemi1_title = hemi1['title'],
-                            hemi1_link = hemi1['hemi_link'],
-                            hemi1_url = hemi1['full_img_url'],
-                            ))
+    return render_template(
+        "heroic_temp.html",
+        title="MarsFacts",
+        table=html_table,
+        news_title=latest_news["article_title"],
+        news_body=latest_news["description_text"],
+        news_url=latest_news["article_link"],
+        img_title=latest_img["feat_img_title"],
+        img_url=latest_img["feat_img_url"],
+        weather_text=latest_weather["tweet_text"],
+        date_added=latest_weather["date"],
+        twitter_url=scraped.twiter_url,
+        hemi1_title=hemi1["title"],
+        hemi1_link=hemi1["hemi_link"],
+        hemi1_url=hemi1["full_img_url"],
+    )
 
-@app.route('/new_scrape')
+
+@app.route("/new_scrape")
 def new_scrape():
     news = scraped.newsScrape()
     img = scraped.imgScrape()
     weather = scraped.weatherScrape()
-
 
 
 app.run(debug=True)
