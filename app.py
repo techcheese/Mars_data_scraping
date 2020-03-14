@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect
 import pymongo
 from scrape_class import Mars_Scrape
 import pandas as pd
@@ -156,5 +156,29 @@ def hemi():
         )
     )
 
-# @app.route('/hemisphere_pictures')
+@app.route('/scrape')
+def scrape():
+    fact_table = scraped.extractFactTable()
+    new_scrape = scraped.newsScrape()
+    weather_scrape = scraped.weatherScrape()
+    img_scrape = scraped.imgScrape()
+    hemi1 = scraped.extractHemispheres()[0]
+
+    fact_insert = conditional_insert(
+        collection=EXT_DATA, post=fact_insert, tag="Equatorial Diameter:"
+    )
+    news_insert = conditional_insert(
+        collection=NEWS, post=new_scrape, tag="article_title"
+    )
+    
+    img_insert = conditional_insert(
+        collection=IMGS, post=img_scrape, tag="feat_img_title"
+    )
+
+    weather_insert = conditional_insert(
+        collection=TWIT, post=weather_scrape, tag="tweet_text"
+    )
+
+    return redirect('/')
+
 app.run(debug=True)
