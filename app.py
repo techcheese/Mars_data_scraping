@@ -158,7 +158,7 @@ def hemi():
 
 @app.route('/scrape')
 def scrape():
-    fact_table = scraped.extractFactTable()
+    fact_insert = scraped.extractFactTable()
     new_scrape = scraped.newsScrape()
     weather_scrape = scraped.weatherScrape()
     img_scrape = scraped.imgScrape()
